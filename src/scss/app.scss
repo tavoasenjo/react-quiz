@@ -29,7 +29,7 @@ header {
 .content {
     background-color: #fff;
     padding: 20px 20px 90px 20px;
-    box-shadow: 4px 6px 38px rgba(255,148,148,0.3);
+    box-shadow: 4px 6px 38px rgba(255, 148, 148, 0.3);
     max-width: 90%;
     margin: 0 auto;
     position: relative;
@@ -45,7 +45,7 @@ header {
             height: 5px;
             background-color: #edecf0;
             .progress-bar {
-                background-color: $darkTextColor
+                background-color: $darkTextColor;
             }
         }
     }
@@ -53,7 +53,7 @@ header {
 .results-overlay {
     background-color: $darkTextColor;
     position: absolute;
-    top:0;
+    top: 0;
     left: 0;
     width: 100%;
     height: 100%;
@@ -180,7 +180,7 @@ header {
             color: $darkTextColor;
         }
     }
-    &.is-selected {
+    &.is-highlighted {
         animation-name: highlight;
         animation-duration: 500ms;
     }
@@ -249,7 +249,7 @@ header {
         &:active,
         &:focus {
             border-color: #ff9494;
-            background-color: rgba(255,148,148,0.5);
+            background-color: rgba(255, 148, 148, 0.5);
             outline: none;
         }
         &.is-disabled {
@@ -278,7 +278,7 @@ header {
     .btn-dark {
         margin: 30px 0;
     }
-    .choices{
+    .choices {
         text-align: center;
     }
     .answers {
@@ -289,7 +289,9 @@ header {
             margin: 0 auto;
             li {
                 text-align: left;
-                br {display: none;}
+                br {
+                    display: none;
+                }
             }
         }
     }
@@ -326,7 +328,7 @@ header {
     header {
         padding-top: 40px;
         margin-bottom: 60px;
-        min-height:210px;
+        min-height: 210px;
         img {
             min-width: 235px;
         }
@@ -343,25 +345,31 @@ header {
 }
 
 @keyframes highlight {
-    0%   {
+    0% {
         background-color: darken(#edecf0, 20);
         border-color: lighten($darkTextColor, 0);
     }
-    33%  {
+    33% {
         background-color: darken(#edecf0, 0);
         border-color: lighten($darkTextColor, 40);
     }
-    66%   {
+    66% {
         background-color: darken(#edecf0, 20);
         border-color: lighten($darkTextColor, 0);
     }
-    100%  {
+    100% {
         background-color: darken(#edecf0, 0);
         border-color: lighten($darkTextColor, 40);
     }
 }
 
 @keyframes spin {
-    0% { transform: rotate(0); transform-origin: center center; }
-    100% { transform: rotate(360deg); transform-origin: center center; }
+    0% {
+        transform: rotate(0);
+        transform-origin: center center;
+    }
+    100% {
+        transform: rotate(360deg);
+        transform-origin: center center;
+    }
 }

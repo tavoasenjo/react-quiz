@@ -1,19 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import NiceButton from './NiceButton';
 
-const Choices = () => {
-	return(
+const Choices = ({ currentChoices, onSelectAnswer }) => {
+	// console.log('these are the choices ', currentChoices);
+	return (
 		<div className="choices">
-            
-            {/* Buttons - start */}
-            <button className="btn btn-huge is-selected"><span className="letter">A</span> Melbourne</button>
-            <button className="btn btn-huge"><span className="letter">B</span> New York</button>
-            <button className="btn btn-huge"><span className="letter">C</span> London</button>
-            {/* Buttons - end */}
+			{/*Loops through all the choices, and return NiceButton component*/}
 
-        </div>
-	)
-}
+			{currentChoices.map((currentChoice, i) => {
+				return <NiceButton key={i} currentChoice={currentChoice} index={i} onSelectAnswer={onSelectAnswer} />;
+			})}
+		</div>
+	);
+};
 
+Choices.propTypes = {
+	currentChoices: PropTypes.array.isRequired,
+	onSelectAnswer: PropTypes.func.isRequired
+};
 
 export default Choices;
