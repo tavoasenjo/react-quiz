@@ -6,6 +6,7 @@ import data from './data/Data';
 //import components
 import Question from './Question';
 import Results from './Results';
+import Progress from './Progress';
 
 class App extends React.Component {
   constructor(props) {
@@ -18,7 +19,7 @@ class App extends React.Component {
       loadNewQuestion: false,
       showResults: false,
       loadingResults: false,
-      correctAnswers: []
+      correctAnswers: null
     };
   }
 
@@ -103,9 +104,23 @@ class App extends React.Component {
   render() {
     // console.log('this is data from the state: ', this.state.allQuestions);
     // console.log('these are the choices: ', this.state.currentQuestion.choices);
-    const { currentQuestion, loadNewQuestion, showResults, allAnswers, allQuestions, loadingResults } = this.state;
+    const {
+      currentQuestion,
+      loadNewQuestion,
+      showResults,
+      allAnswers,
+      allQuestions,
+      loadingResults,
+      correctAnswers,
+      resultsLoaded,
+      progress
+    } = this.state;
     return (
-      <div className={`${loadingResults ? 'is-loading-results' : ''}`}>
+      <div
+        className={`${loadingResults ? 'is-loading-results' : ''} ${resultsLoaded
+          ? 'is-showing-results'
+          : 'no-results-loaded'}`}
+      >
         {/* Header - start */}
         <header>
           <img
@@ -117,15 +132,8 @@ class App extends React.Component {
 
         {/* Content - start */}
         <div className={`content`}>
-          {/* Progress - start */}
-          <div className="progress-container">
-            <div className="progress-label">1 of 5 answered</div>
-            <div className="progress">
-              <div className="progress-bar" style={{ width: `20%` }}>
-                <span className="sr-only">20% Complete</span>
-              </div>
-            </div>
-          </div>
+          {/*Here we will implement the progress bar. We will have to pass two props allQuestion.length will tell us the number of total questions and allAnswer.length will tell us the number of question the user has answered*/}
+          <Progress total={allQuestions.length} progress={allAnswers.length} />
           {/* Progress - end */}
 
           {/* Question - start */}
@@ -142,6 +150,7 @@ class App extends React.Component {
                 allAnswers={allAnswers}
                 loadNewQuestion={loadNewQuestion}
                 onLoadResults={this.onLoadResults}
+                correctAnswers={correctAnswers}
               />}
 
           {/* Question - end */}

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import Answers from './Answers';
 
-const Results = ({ allQuestions, allAnswers, loadNewQuestion, onLoadResults }) => {
+const Results = ({ allQuestions, allAnswers, loadNewQuestion, onLoadResults, correctAnswers }) => {
 	return (
 		<div className={`results ${loadNewQuestion ? 'fade-out fade-out-active' : 'fade-out'}`}>
 			<div className="loader">
@@ -13,7 +13,7 @@ const Results = ({ allQuestions, allAnswers, loadNewQuestion, onLoadResults }) =
 			<h1>Here are your answers:</h1>
 			<div className="answers">
 				{/*Create Answers component to map through and return all the answers*/}
-				<Answers allAnswers={allAnswers} allQuestions={allQuestions} />
+				<Answers allAnswers={allAnswers} allQuestions={allQuestions} correctAnswers={correctAnswers} />
 			</div>
 			<div className="text-center">
 				<button
@@ -30,6 +30,14 @@ const Results = ({ allQuestions, allAnswers, loadNewQuestion, onLoadResults }) =
 			</div>
 		</div>
 	);
+};
+
+Results.propTypes = {
+	loadNewQuestion: PropTypes.bool.isRequired,
+	allAnswers: PropTypes.array.isRequired,
+	allQuestions: PropTypes.array.isRequired,
+	onLoadResults: PropTypes.func.isRequired,
+	correctAnswers: PropTypes.array
 };
 
 export default Results;
