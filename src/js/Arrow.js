@@ -4,16 +4,17 @@ import PropTypes from 'prop-types';
 import arrowLeftImg from '../images/navigation-left-arrow.svg';
 import arrowRightImg from '../images/navigation-right-arrow.svg';
 
-const Arrow = ({ direction, progress, allAnswers, goToPreviousQuestion, goToNextQuestion }) => {
+const Arrow = ({ direction, progress, allAnswers, goToPreviousQuestion, goToNextQuestion, showResults }) => {
 	// Constant to determine which of the arrows we will render. We will check for the direction, and if the direction is left, we will render the left arrow. Same if the direction is the right, we will render the right arrow.
 	const image = direction === 'left' ? arrowLeftImg : arrowRightImg;
 
 	// We need to define when the button should be disabled
 	//two conditionals: 1- we are at the first question. 2- the question hasn't been answered yet
-	const isDisabled = (direction === 'left' && progress === 0) || (direction === 'right' && !allAnswers[progress]);
+	const isDisabled = (direction === 'left' && progress === 0) || (direction === 'right' && !allAnswers[progress]) || (direction === 'right' && showResults);
 	return (
 		<button
 			disabled={isDisabled}
+			showResults={showResults}
 			className={`arrow ${isDisabled ? 'is-disabled' : ''}`}
 			onClick={e => {
 				direction === 'left' ? goToPreviousQuestion() : goToNextQuestion();
@@ -30,7 +31,8 @@ Arrow.propTypes = {
 	progress: PropTypes.number.isRequired,
 	allAnswers: PropTypes.array.isRequired,
 	goToPreviousQuestion: PropTypes.func,
-	goToNextQuestion: PropTypes.func
+	goToNextQuestion: PropTypes.func,
+	showResults: PropTypes.bool.isRequired
 };
 
 export default Arrow;

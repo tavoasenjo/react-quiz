@@ -8,6 +8,7 @@ import Question from './Question';
 import Results from './Results';
 import Progress from './Progress';
 import Arrow from './Arrow';
+import defaultImage from '../images/truck.svg'
 
 class App extends React.Component {
   constructor(props) {
@@ -149,6 +150,8 @@ class App extends React.Component {
     // console.log('this is data from the state: ', this.state.allQuestions);
     // console.log('these are the choices: ', this.state.currentQuestion.choices);
 
+
+
     const {
       currentQuestion,
       loadNewQuestion,
@@ -160,6 +163,8 @@ class App extends React.Component {
       resultsLoaded,
       progress
     } = this.state;
+
+    const headerImage = !showResults ? currentQuestion.image : defaultImage;
 
     const navIsActive = allAnswers.length > 0;
 
@@ -173,7 +178,7 @@ class App extends React.Component {
         <header>
           <img
             className={`${loadNewQuestion ? 'fade-out fade-out-active' : 'fade-out'}`}
-            src="https://ihatetomatoes.net/react-tutorials/abc-quiz/images/plane.svg"
+            src={headerImage}
           />
         </header>
         {/* Header - end */}
@@ -219,6 +224,7 @@ class App extends React.Component {
             progress={progress}
             allAnswers={allAnswers}
             direction="right"
+            showResults={showResults}
           />
         </div>
         {/* Navigation - end */}
