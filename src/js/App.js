@@ -7,6 +7,7 @@ import data from './data/Data';
 import Question from './Question';
 import Results from './Results';
 import Progress from './Progress';
+import Arrow from './Arrow';
 
 class App extends React.Component {
   constructor(props) {
@@ -27,14 +28,30 @@ class App extends React.Component {
   onSelectAnswer = answer => {
     // console.log('Answer selected:', answer);
 
-    const { allAnswers } = this.state;
-    this.setState(
-      {
-        // we will take whatever is currently in allAnswers and then we are adding the new answer to the end of the array
-        allAnswers: [...allAnswers, answer]
-      },
-      this.goToNextQuestion() //when the state is updated, we tell react to go to the next question
-    );
+    const { allAnswers, progress } = this.state;
+
+    // Here we will write the logic that recognize if the user has selected an answer and it was selected, to allow to select another answer and deselect the previous answer selected
+    const currentAnswer = allAnswers[progress];
+
+    if (currentAnswer) {
+      //if the currentAnswer exist: replace it
+      allAnswers[progress] = answer;
+      this.setState(
+        {
+          allAnswers: allAnswers
+        },
+        this.goToNextQuestion()
+      );
+    } else {
+      //otherwise, add answer to the array
+      this.setState(
+        {
+          // we will take whatever is currently in allAnswers and then we are adding the new answer to the end of the array
+          allAnswers: [...allAnswers, answer]
+        },
+        this.goToNextQuestion() //when the state is updated, we tell react to go to the next question
+      );
+    }
   };
 
   goToNextQuestion = () => {
@@ -61,6 +78,23 @@ class App extends React.Component {
           showResults: true
         });
       }
+    }, 300);
+  };
+
+  goToPreviousQuestion = () => {
+    console.log('go to previous question');
+    const { progress, allQuestions, loadNewQuestion } = this.state;
+
+    this.setState({
+      loadNewQuestion: true
+    });
+
+    setTimeout(() => {
+      this.setState({
+        progress: progress - 1,
+        loadNewQuestion: false,
+        currentQuestion: allQuestions[progress - 1]
+      });
     }, 300);
   };
 
@@ -104,6 +138,7 @@ class App extends React.Component {
   render() {
     // console.log('this is data from the state: ', this.state.allQuestions);
     // console.log('these are the choices: ', this.state.currentQuestion.choices);
+
     const {
       currentQuestion,
       loadNewQuestion,
@@ -115,6 +150,9 @@ class App extends React.Component {
       resultsLoaded,
       progress
     } = this.state;
+
+    const navIsActive = allAnswers.length > 0;
+
     return (
       <div
         className={`${loadingResults ? 'is-loading-results' : ''} ${resultsLoaded
@@ -144,6 +182,7 @@ class App extends React.Component {
                 currentQuestion={currentQuestion}
                 onSelectAnswer={this.onSelectAnswer}
                 loadNewQuestion={loadNewQuestion}
+                allAnswers={allAnswers}
               />
             : <Results
                 allQuestions={allQuestions}
@@ -158,13 +197,19 @@ class App extends React.Component {
         {/* Content - end */}
 
         {/* Navigation - start */}
-        <div className={`navigation text-center is-active`}>
-          <button className={`arrow`}>
-            <img src="https://ihatetomatoes.net/react-tutorials/abc-quiz/fonts/navigation-left-arrow.svg" />
-          </button>
-          <button disabled className={`arrow is-disabled`}>
-            <img src="https://ihatetomatoes.net/react-tutorials/abc-quiz/fonts/navigation-right-arrow.svg" />
-          </button>
+        <div className={`navigation text-center ${navIsActive ? 'is-active' : ''}`}>
+          <Arrow
+            goToPreviousQuestion={this.goToPreviousQuestion}
+            progress={progress}
+            allAnswers={allAnswers}
+            direction="left"
+          />
+          <Arrow
+            goToNextQuestion={this.goToNextQuestion}
+            progress={progress}
+            allAnswers={allAnswers}
+            direction="right"
+          />
         </div>
         {/* Navigation - end */}
       </div>

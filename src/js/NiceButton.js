@@ -2,6 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 class NiceButton extends React.Component {
+	// es6 method GETTER
+	//https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/get
+	get selected() {
+		//first distructure the props we will use
+		const { allAnswers, currentChoice } = this.props;
+		//if allAnswers includes currentChoice, it will return true
+		return allAnswers.includes(currentChoice);
+		//then go to the className to write the conditional
+	}
+
 	getLetter = index => {
 		const letters = ['A', 'B', 'C'];
 		return letters[index];
@@ -27,13 +37,14 @@ class NiceButton extends React.Component {
 	};
 
 	render() {
-		const { currentChoice, index, onSelectAnswer } = this.props;
+		const { currentChoice, index, onSelectAnswer, allAnswers } = this.props;
 		return (
 			<button
 				ref={input => {
 					this.button = input;
 				}}
-				className="btn btn-huge"
+				// here we will write the conditional of the getter: this.selected
+				className={`btn btn-huge ${this.selected ? 'is-selected' : ''}`}
 				onClick={e => {
 					this.handleClick(e);
 				}}
@@ -47,7 +58,8 @@ class NiceButton extends React.Component {
 NiceButton.propTypes = {
 	currentChoice: PropTypes.string.isRequired,
 	index: PropTypes.number.isRequired,
-	onSelectAnswer: PropTypes.func.isRequired
+	onSelectAnswer: PropTypes.func.isRequired,
+	allAnswers: PropTypes.array.isRequired
 };
 
 export default NiceButton;
