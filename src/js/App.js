@@ -83,18 +83,28 @@ class App extends React.Component {
 
   goToPreviousQuestion = () => {
     console.log('go to previous question');
-    const { progress, allQuestions, loadNewQuestion } = this.state;
+    const { progress, allQuestions, loadNewQuestion, showResults } = this.state;
 
     this.setState({
       loadNewQuestion: true
     });
 
     setTimeout(() => {
-      this.setState({
-        progress: progress - 1,
-        loadNewQuestion: false,
-        currentQuestion: allQuestions[progress - 1]
-      });
+      if (progress > 0 && !showResults) {
+        this.setState({
+          progress: progress - 1,
+          loadNewQuestion: false,
+          currentQuestion: allQuestions[progress - 1]
+        });
+      }
+
+      // Note this is a different way to write if statements
+      showResults &&
+        this.setState({
+          showResults: false,
+          loadNewQuestion: false,
+          currentQuestion: allQuestions[progress]
+        });
     }, 300);
   };
 
