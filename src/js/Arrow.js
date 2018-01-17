@@ -10,11 +10,13 @@ const Arrow = ({ direction, progress, allAnswers, goToPreviousQuestion, goToNext
 
 	// We need to define when the button should be disabled
 	//two conditionals: 1- we are at the first question. 2- the question hasn't been answered yet
-	const isDisabled = (direction === 'left' && progress === 0) || (direction === 'right' && !allAnswers[progress]) || (direction === 'right' && showResults);
+	const isDisabled =
+		(direction === 'left' && progress === 0) ||
+		(direction === 'right' && !allAnswers[progress]) ||
+		(direction === 'right' && showResults);
 	return (
 		<button
 			disabled={isDisabled}
-			showResults={showResults}
 			className={`arrow ${isDisabled ? 'is-disabled' : ''}`}
 			onClick={e => {
 				direction === 'left' ? goToPreviousQuestion() : goToNextQuestion();
@@ -31,8 +33,7 @@ Arrow.propTypes = {
 	progress: PropTypes.number.isRequired,
 	allAnswers: PropTypes.array.isRequired,
 	goToPreviousQuestion: PropTypes.func,
-	goToNextQuestion: PropTypes.func,
-	showResults: PropTypes.bool.isRequired
+	goToNextQuestion: PropTypes.func
 };
 
 export default Arrow;

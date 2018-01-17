@@ -8,7 +8,7 @@ import Question from './Question';
 import Results from './Results';
 import Progress from './Progress';
 import Arrow from './Arrow';
-import defaultImage from '../images/truck.svg'
+import defaultImage from '../images/truck.svg';
 
 class App extends React.Component {
   constructor(props) {
@@ -21,7 +21,8 @@ class App extends React.Component {
       loadNewQuestion: false,
       showResults: false,
       loadingResults: false,
-      correctAnswers: null
+      correctAnswers: null,
+      resultsLoaded: false
     };
   }
 
@@ -146,11 +147,21 @@ class App extends React.Component {
     // }, 1000);
   };
 
+  onRestart = () => {
+    // console.log('restart the app');
+    this.setState({
+      allAnswers: [],
+      correctAnswers: null,
+      currentQuestion: this.state.allQuestions[0],
+      progress: 0,
+      resultsLoaded: false,
+      showResults: false
+    });
+  };
+
   render() {
     // console.log('this is data from the state: ', this.state.allQuestions);
     // console.log('these are the choices: ', this.state.currentQuestion.choices);
-
-
 
     const {
       currentQuestion,
@@ -176,10 +187,7 @@ class App extends React.Component {
       >
         {/* Header - start */}
         <header>
-          <img
-            className={`${loadNewQuestion ? 'fade-out fade-out-active' : 'fade-out'}`}
-            src={headerImage}
-          />
+          <img className={`${loadNewQuestion ? 'fade-out fade-out-active' : 'fade-out'}`} src={headerImage} />
         </header>
         {/* Header - end */}
 
@@ -205,6 +213,8 @@ class App extends React.Component {
                 loadNewQuestion={loadNewQuestion}
                 onLoadResults={this.onLoadResults}
                 correctAnswers={correctAnswers}
+                resultsLoaded={resultsLoaded}
+                onRestart={this.onRestart}
               />}
 
           {/* Question - end */}
